@@ -1,3 +1,6 @@
+from socket import *
+import sys
+
 # Ordem definida pelo professor:
 # Lê arquivo de entrada -> Enquadra -> Codifica -> Transmite -> Recebe -> Decodifica - > Processa quadro -> Grava arquivo de saída
 #-------------------------------------------------------------------------------
@@ -142,19 +145,94 @@ def enquadra(dados_byte):
 	
 	quadro = ''.join([sync, sync, length, checksum, ID, flags, dados16])
 	return(quadro)
-	
-	
+
+# ----------------------------------------------
+#Função abrir o arquivo
+def abrirArq():
+    with open(sys.argv[4], 'r+b') as file:
+    	byte = file.read()
+    	#while byte != b'':
+    	#print(byte)
+
+#Escrever no arquivo
+
+def escArqu(arq):
+	with open(sys.argv[5], 'r+b') as file:
+		file.write(arq)
+
+#----------------------------------------------------------
+"""
+with open('teste.bin', 'r+b') as file:
+    byte = file.read(1)
+    while byte != b'':
+        print(byte)
+        byte = file.read(1)
+
+    file.seek(2, 0)
+    file.write(b'\xFF')
+"""
+
+#---------PROGRAMA MAIN COMECA AQUI---------------------------
 
 leitura_arquivo()
+print("\n\n")
 
-import sys
+#-------------------------------------------
+#Definir -c ou -s 
+#cliente: 	./dcc023c2 -c <IP>:<PORT> <INPUT> <OUTPUT>
+#servidor: 	./dcc023c2 -s <PORT> <INPUT> <OUTPUT>
 
-print ("This is the name of the script: ", sys.argv[1])
-print ("Number of arguments: ", len(sys.argv))
-print ("The arguments are: " , str(sys.argv))
+s = socket(AF_INET, SOCK_STREAM) # um único socket, que sera ou cliente ou servidor
 
-print("\nIP:", sys.argv[2][:9], "\nPORT:", sys.argv[2][10:])
+if sys.argv[1] == "-c":
+	isclient = True # flag para indicar que esta executando como cliente
+	isserver = False # flag para indicar que nao esta executando como servidor
+
+	#Separa IP e PORT encontrando o ':'
+	pos = sys.argv[2].find(':')
+	host = sys.argv[2][:pos]
+	port = int(sys.argv[2][pos+1:])
+
+	s.connect((host, port))
+
+	
+elif sys.argv[1] == "-s":
+	isclient = False # flag para indicar que nao esta executando como cliente
+	isserver = True # flag para indicar que esta executando como servidor
+
+	host = '127.0.0.1'
+	port = int(sys.argv[2])
+
+	s.bind((host, port))
+	s.listen(1)
+	
+	print("Awaiting connection from client...")
+	
+	conn, addr = s.accept()
+	print("I'm connect. Awaiting data...\n")
+	
+#----------------------------------------------------------------------
+maximum_bytes = 4096
+
+if isclient:
+	while True:
+		message = input("Your message: ")
+		s.send(message.encode('utf-8'))
+		print("Awaiting reply\n")
+	
+		reply = s.recv(maximum_bytes).decode()
+		print(reply)
+elif isserver:
+	while True:
+		data = conn.recv(maximum_bytes) # recv using connection
+		print (data.decode())
+	
+		reply = input("Reply: ")
+		conn.send(reply.encode())
+
+	conn.close()
 
 
+s.close()
 
 
