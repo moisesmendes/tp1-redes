@@ -28,15 +28,16 @@ def ip_checksum(ip_header, size):
     cksum = (cksum >> 16) + (cksum & 0xffff)
     cksum += (cksum >>16)
     
-    return (~cksum) & 0xFFFF
+    return (~cksum) & 0xffff
     
 # -----------------------------
 # USING THE CODE 
 
-import checksum
+#import checksum
 
 header = {}
 
+"""
 header[0] = 0x45
 header[1] = 0x00
 header[2] = 0x00
@@ -57,8 +58,35 @@ header[16] = 0x0a
 header[17] = 0x86
 header[18] = 0x33
 header[19] = 0x76
+"""
 
-print("Checksum is: %x" % (checksum.ip_checksum(header, len(header)),))
-print("Should be BD92")
+header[0] = 0xdc
+header[1] = 0xc0
+header[2] = 0x23
+header[3] = 0xc2
+header[4] = 0xdc
+header[5] = 0xc0
+header[6] = 0x23
+header[7] = 0xc2
+header[8] = 0x0
+header[9] = 0x0
+header[10] = 0x0
+header[11] = 0x0
+header[12] = 0x0
+header[13] = 0x80
+
+
+"""
+header[14] = 0x33
+header[15] = 0xf1
+header[16] = 0x0a
+header[17] = 0x86
+header[18] = 0x33
+header[19] = 0x76
+"""
+
+
+print("Checksum is: %x" % (ip_checksum(header, len(header)),))
+print("Should be fe79")
 
 
