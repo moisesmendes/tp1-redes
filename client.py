@@ -50,6 +50,7 @@ def getQuadroInfo(sequenciaBinaria):
 
 # ----------------------------------------------
 #Função abrir o arquivo
+<<<<<<< HEAD
 def abrirArq():
     with open(sys.argv[4], 'r+b') as file:
     	byte = file.read()
@@ -81,6 +82,31 @@ HOST = sys.argv[2]
 print(HOST)
 PORT = int(sys.argv[3]) #PORT = 33121
 print(PORT)
+=======
+
+with open('teste.bin', 'r+b') as file:
+    byte = file.read(1)
+    while byte != b'':
+        print(byte)
+        byte = file.read(1)
+
+    file.seek(2, 0)
+    file.write(b'\xFF')
+
+#-------------------------------------------
+#Definir -c ou -s 
+#entrada: ./dcc023c2 -c <IP>:<PORT> <INPUT> <OUTPUT>
+
+if( sys.argv[0] == "-c")
+	#Código do cliente
+else if( sys.argv[0] == "-s")
+	#Codigo do servidor
+
+#------------------------------
+s = socket(AF_INET, SOCK_STREAM)
+PORT = sys.argv[2] #PORT = 33121
+HOST = sys.argv[1] 
+>>>>>>> eaf6c3d4104138b1fd5cbcd88724926e9c574168
 s.connect((HOST, PORT))
 
 maximum_bytes = 4096

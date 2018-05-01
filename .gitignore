@@ -100,4 +100,8 @@ ENV/
 # mypy
 .mypy_cache/
 
-tp1-descricao.pdf
+*.pdf
+*.docx
+*.odt
+.DS_Store
+
