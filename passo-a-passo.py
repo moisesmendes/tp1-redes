@@ -3,15 +3,35 @@
 #------------------------------------------------
 
 # Funcao que le texto de um arquivo de entrada lista.txt
-def leitura_arquivo(filename='lista.txt'):
-	arq = open(filename, 'r')
+def leitura_arquivo(filename='../dccnet-test/tests/simple.txt'):
+	"""
+	arq = open(filename, 'r+b')
 	texto = arq.read()
 	print(texto)
 	arq.close()
 	return(texto)
+	"""
+	# ----------------------------------------------
+	#Função abrir o arquivo
+
+	with open(filename, 'r+b') as file:
+		byte = file.read()
+		print(byte)
+		#while byte != b'':
+		 #   print(byte)
+		  #  byte = file.read(1)
+		  
+	hexa = [hex(x) for x in byte]
+	final = encode16(hexa)
+		  
+	with open('../dccnet-test/tests/simple2.txt', 'w') as file:
+		file.write(final)
+		print("\n\n---------------chegou ao final--------------")
+
+
 
 # FUNCOES UTEIS:
-	# ord('z') retorna valor ascii
+	# ord('z') retorna valor correspondente ao caractere ascii
 	# chr(ord('z')) retorna char correspondente ao valor ascii
 	# hex(10) retorna o valor inteiro passado como hexadecimal
 
@@ -58,6 +78,8 @@ def enquadra(dados16):
 	
 
 text = leitura_arquivo()
+
+"""
 hexa = str2hex(text)
 print('hexa:\n', hexa)
 print('tamanho: ', len(hexa))
@@ -67,8 +89,7 @@ print('result:\n', r)
 print('tamanho: ', len(r))
 
 print('\n---------quadro final:--------\n', enquadra(r))
-
-
+"""
 
 
 
