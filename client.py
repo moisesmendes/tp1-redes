@@ -1,7 +1,7 @@
 from socket import *
 import sys
 
-# --------------------------------------------
+# ---------------------------------------------
 # CODIFICACAO E DECODIFICACAO DOS DADOS
 
 def encode16(entrada):
@@ -9,6 +9,8 @@ def encode16(entrada):
 
 def decode16(entrada):
     return(bin(int(entrada,16)))
+
+
 
 # --------------------------------------------
 # LEITURA DO QUADRO 
@@ -46,11 +48,30 @@ def getQuadroInfo(sequenciaBinaria):
 	# x = socket.ntohs(x)
 
 # ----------------------------------------------
+#Função abrir o arquivo
 
+with open('teste.bin', 'r+b') as file:
+    byte = file.read(1)
+    while byte != b'':
+        print(byte)
+        byte = file.read(1)
 
+    file.seek(2, 0)
+    file.write(b'\xFF')
+
+#-------------------------------------------
+#Definir -c ou -s 
+#entrada: ./dcc023c2 -c <IP>:<PORT> <INPUT> <OUTPUT>
+
+if( sys.argv[0] == "-c")
+	#Código do cliente
+else if( sys.argv[0] == "-s")
+	#Codigo do servidor
+
+#------------------------------
 s = socket(AF_INET, SOCK_STREAM)
-HOST = "150.164.143.10"
-PORT = 33121
+PORT = sys.argv[2] #PORT = 33121
+HOST = sys.argv[1] 
 s.connect((HOST, PORT))
 
 maximum_bytes = 4096
