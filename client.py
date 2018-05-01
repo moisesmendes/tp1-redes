@@ -3,6 +3,7 @@ import sys
 
 # ---------------------------------------------
 # CODIFICACAO E DECODIFICACAO DOS DADOS
+# MOISES teste
 
 def encode16(entrada):
     return(hex(int(entrada,2)))
