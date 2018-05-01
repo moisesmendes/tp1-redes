@@ -48,30 +48,32 @@ def getQuadroInfo(sequenciaBinaria):
 	# x = socket.ntohs(x)
 
 # ----------------------------------------------
-#Função abrir o arquivo TESTE
-
-with open('teste.bin', 'r+b') as file:
-    byte = file.read(1)
-    while byte != b'':
-        print(byte)
-        byte = file.read(1)
-
-    file.seek(2, 0)
-    file.write(b'\xFF')
+#Função abrir o arquivo
+def abrirArq():
+    with open(sys.argv[4], 'r+b') as file:
+    	byte = file.read()
+    	#while byte != b'':
+    	#print(byte)
+        
+	#file.write(b'\xFF')
 
 #-------------------------------------------
 #Definir -c ou -s 
 #entrada: ./dcc023c2 -c <IP>:<PORT> <INPUT> <OUTPUT>
 
-if( sys.argv[0] == "-c")
-	#Código do cliente
-else if( sys.argv[0] == "-s")
-	#Codigo do servidor
+#if sys.argv[0] == "-c":
+#	#Código do cliente
+#elseif sys.argv[0] == "-s":
 
+#	#Codigo do servidor
 #------------------------------
 s = socket(AF_INET, SOCK_STREAM)
-PORT = sys.argv[2] #PORT = 33121
-HOST = sys.argv[1] 
+
+
+PORT = int(sys.argv[3]) #PORT = 33121
+print(PORT)
+HOST = sys.argv[2]
+print(HOST)
 s.connect((HOST, PORT))
 
 maximum_bytes = 4096
