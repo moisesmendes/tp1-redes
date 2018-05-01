@@ -54,8 +54,15 @@ def abrirArq():
     	byte = file.read()
     	#while byte != b'':
     	#print(byte)
+	file.close()
+
+#Escrever no arquivo
+
+def escArqu(arq):
+	with open(sys.argv[5], 'r+b') as file:
+	file.write(arq)
+	file.close()
         
-	#file.write(b'\xFF')
 
 #-------------------------------------------
 #Definir -c ou -s 
@@ -69,11 +76,10 @@ def abrirArq():
 #------------------------------
 s = socket(AF_INET, SOCK_STREAM)
 
-
-PORT = int(sys.argv[3]) #PORT = 33121
-print(PORT)
 HOST = sys.argv[2]
 print(HOST)
+PORT = int(sys.argv[3]) #PORT = 33121
+print(PORT)
 s.connect((HOST, PORT))
 
 maximum_bytes = 4096
