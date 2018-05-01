@@ -1,8 +1,10 @@
 from socket import *
 import sys
+#entrada: ./dcc023c2 -c <IP>:<PORT> <INPUT> <OUTPUT>
 
-HOST = "127.0.0.1"
-PORT = 33120
+
+HOST = sys.argv[2]
+PORT = int(sys.argv[3])
 
 s = socket(AF_INET, SOCK_STREAM)
 s.bind((HOST, PORT))
