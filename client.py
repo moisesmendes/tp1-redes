@@ -1,7 +1,7 @@
 from socket import *
 import sys
 
-# ---------------------------------------------
+# --------------------------------------------
 # CODIFICACAO E DECODIFICACAO DOS DADOS
 
 def encode16(entrada):
@@ -48,7 +48,7 @@ def getQuadroInfo(sequenciaBinaria):
 	# x = socket.ntohs(x)
 
 # ----------------------------------------------
-#Função abrir o arquivo
+#Função abrir o arquivo TESTE
 
 with open('teste.bin', 'r+b') as file:
     byte = file.read(1)
