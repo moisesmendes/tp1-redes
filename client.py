@@ -70,8 +70,8 @@ else if( sys.argv[0] == "-s")
 
 #------------------------------
 s = socket(AF_INET, SOCK_STREAM)
-PORT = sys.argv[1] #PORT = 33121
-HOST = "127.0.0.1"
+PORT = sys.argv[2] #PORT = 33121
+HOST = sys.argv[1] 
 s.connect((HOST, PORT))
 
 maximum_bytes = 4096
