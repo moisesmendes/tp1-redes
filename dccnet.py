@@ -1,15 +1,19 @@
 from socket import *
 import sys
+import _thread
+import time
+
+segundaVez = False
 
 # Ordem definida pelo professor:
 # Lê arquivo de entrada -> Enquadra -> Codifica -> Transmite -> Recebe -> Decodifica - > Processa quadro -> Grava arquivo de saída
 #-------------------------------------------------------------------------------
 
 # Funcao que le texto de um arquivo de entrada lista.txt
-def leitura_arquivo():
+def leitura_arquivo(INPUT, OUTPUT):
 
 	# Abre o arquivo de entrada
-	filename='../dccnet-test/tests/hello.txt'
+	filename=INPUT
 	
 	with open(filename, 'r+b') as file:
 		byte = file.read()
@@ -24,7 +28,7 @@ def leitura_arquivo():
 		  
 	"""	  
 	# Escreve no arquivo de saída
-	with open('../dccnet-test/tests/hello2.txt', 'w') as file:
+	with open(OUTPUT, 'w') as file:
 		file.write(codificado)
 		print("\n\n---------------chegou ao final--------------")
 		
@@ -46,6 +50,7 @@ def leitura_arquivo():
 	quadrofinal = quadro[:20] + check + quadro[24:]
 	
 	print("\n------------QUADRO COM CHECKSUM------------\n", quadrofinal)
+	return(quadrofinal)
 
 #-------------------------------------------------------------------------------
 
@@ -174,7 +179,7 @@ with open('teste.bin', 'r+b') as file:
 
 #---------PROGRAMA MAIN COMECA AQUI---------------------------
 
-leitura_arquivo()
+#leitura_arquivo(sys.argv[3],sys.argv[4])
 print("\n\n")
 
 #-------------------------------------------
@@ -215,19 +220,30 @@ elif sys.argv[1] == "-s":
 maximum_bytes = 4096
 
 if isclient:
-	while True:
-		message = input("Your message: ")
-		s.send(message.encode('utf-8'))
-		print("Awaiting reply\n")
+	while isclient == True:
+		print("TST") 
+		if segundaVez == True:
+			print("TST") 
+			while s.recv(maximum_bytes) != "ACK":
+				print("Waiting ACK")
+				time.sleep(1)    #temporizador 1 segundo
+				print("timeOUT")
+				segundaVez = False
+			s.close()
+		if segundaVez == False : #primeira vez 
+			message = leitura_arquivo(sys.argv[3],sys.argv[4])
+			s.send(message.encode('utf-8'))
+			print("primeira vez")
 	
 		reply = s.recv(maximum_bytes).decode()
 		print(reply)
+		segundaVez = True
 elif isserver:
-	while True:
+	while isserver == True:
 		data = conn.recv(maximum_bytes) # recv using connection
 		print (data.decode())
-	
-		reply = input("Reply: ")
+		#se checkout estiver ok: 
+		reply = "ACK" #input("Reply: ")
 		conn.send(reply.encode())
 
 	conn.close()
